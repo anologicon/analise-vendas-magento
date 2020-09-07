@@ -60,4 +60,9 @@ def main():
     """
     data_viz.plotSalesWeekWeekend(df)
 
+    """
+    ## Como esta minha têndencia?
+    """
+    data_viz.plotTrand(df)
+
 main()

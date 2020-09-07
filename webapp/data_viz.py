@@ -2,6 +2,7 @@ import matplotlib as plt
 import plotly.graph_objects as go
 import streamlit as st
 from plotly.subplots import make_subplots
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 def simplePlotSeries(df):
     data = [go.Scatter(x=df.index, y=df['Pedidos'])]
@@ -75,7 +76,7 @@ def plotSalesByWeekDays(df):
 
     maxPedidos = round(dfGroupByWeekIndex['Pedidos'].max(), 3)
 
-    st.write("Parece que **"+maxDiaSemana+"** tem o melhor média de vendas, com **"+str(maxPedidos)+"** pedidos.")
+    st.write("Parece que **"+maxDiaSemana+"** tem a melhor média de vendas, com **"+str(maxPedidos)+"** pedidos.")
 
 def plotSalesWeekWeekend(df):
     dfSetWeekend = df.copy()
@@ -127,5 +128,22 @@ def plotSubSales(df):
     fig.add_scatter(x=yearly.index, 
                 y=yearly['Pedidos'],
                 name = 'Vendas Anuais', mode="lines",row=4,col=1)
+
+    st.plotly_chart(fig)
+
+def plotTrand(df):
+
+    decomposition = seasonal_decompose(df, model="additive")
+
+    trace1 = go.Scatter(x=df.index, 
+            y=decomposition.trend,
+            name = 'Tendência', mode="lines")
+
+    data = [trace1]
+
+    layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
+                xaxis={'title':'Data'})
+
+    fig = go.Figure(data=data, layout=layout)
 
     st.plotly_chart(fig)
