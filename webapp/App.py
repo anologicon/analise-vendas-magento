@@ -5,6 +5,9 @@ from io import BytesIO, StringIO
 import streamlit as st
 from VizSerie import VizSerie
 
+st.beta_set_page_config(
+    page_title="Magento 1 - Analise de relatorio de vendas")
+
 def viz(data):
 
     data['Período'] = pd.to_datetime(data['Período'], format='%Y-%m-%d')
@@ -34,6 +37,12 @@ def viz(data):
     ## Como está minhas vendas: Semana X Fim de semana?    
     """
     data_viz.plotSalesWeekWeekend()
+
+    """
+    ## Como está minhas vendas: Feriado X Fim de semana?    
+    """
+    data_viz.plotSalesHolyDayWeekend()
+
 
     """
     ## Como esta minha têndencia?

@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 from plotly.subplots import make_subplots
 from statsmodels.tsa.seasonal import seasonal_decompose
+import holidays
+br_holidays = holidays.Brazil()
 
 class VizSerie:
 
@@ -115,6 +117,36 @@ class VizSerie:
         fig = go.Figure(data=data, layout=layout)
 
         st.plotly_chart(fig)
+    
+    def plotSalesHolyDayWeekend(self):
+
+        df = self.df
+
+        dfSetWeekend = df.copy()
+
+        dfSetWeekend['DiaDaSemana'] = df.index.dayofweek
+
+        dfSetWeekend['FimDeSemana'] = dfSetWeekend['DiaDaSemana'].apply(lambda x: x == 5 or x == 6)
+
+        dfSetWeekend['date'] = dfSetWeekend.index
+
+        dfSetWeekend['Feriado'] = dfSetWeekend['date'].apply(lambda x: x in br_holidays)
+
+        trace1 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 1, 'Pedidos'], 
+                    name='Fim de semana',marker = {'color': '#488f31'})
+
+
+        trace2 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['Feriado'] == 1, 'Pedidos'], 
+                    name='Feriado',marker = {'color': '#89b050'})
+
+        data = [trace1, trace2]
+        
+        layout = go.Layout(yaxis={'title':'Pedidos'},
+                    xaxis={'title':'Feriado x Fim de semana'})
+
+        fig = go.Figure(data=data, layout=layout)
+
+        st.plotly_chart(fig)
 
     def plotSubSales(self):
 
@@ -177,23 +209,20 @@ class VizSerie:
 
         df = self.df
 
-        decomposition = seasonal_decompose(df, model="multiplicative")
+        decomposition = seasonal_decompose(df)
 
         trace1 = go.Scatter(x=df.index, 
                 y=decomposition.seasonal,
                 name = 'Sasionalidade', mode="lines", marker={'color': '#ff322b'})
 
-        trace2 = go.Scatter(x=df.index, 
-                y=df['Pedidos'],
-                name = 'Pedidos', mode="lines", marker={'color': '#3d2bff'})
-
-        data = [trace2, trace1]
+        data = [trace1]
 
         layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
                     xaxis={'title':'Data'})
 
         fig = go.Figure(data=data, layout=layout)
 
+        st.write("Variação sasional ou sasionalidade são cíclos que se repetem regularmente sobre o tempo.")
 
         st.plotly_chart(fig)
 
