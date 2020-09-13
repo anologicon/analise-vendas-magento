@@ -11,4 +11,4 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 # run app
-CMD streamlit run webapp/app.py
+CMD streamlit run webapp/App.py

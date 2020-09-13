@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run webapp/app.py
+web: sh setup.sh && streamlit run webapp/App.py
