@@ -34,15 +34,14 @@ def viz(data):
     data_viz.plotSalesByWeekDays()
 
     """
-    ## Como está minhas vendas: Semana X Fim de semana?    
+    ## Médias de vendas ao longo das semanas do mês?
     """
-    data_viz.plotSalesWeekWeekend()
+    data_viz.plotMonthWeekSales()
 
     """
-    ## Como está minhas vendas: Feriado X Fim de semana?    
+    ## Fim de semana X Feriado X Dias da semana?    
     """
-    data_viz.plotSalesHolyDayWeekend()
-
+    data_viz.plotSalesWeekEspecialsDays()
 
     """
     ## Como esta minha têndencia?

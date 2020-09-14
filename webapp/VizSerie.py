@@ -92,7 +92,7 @@ class VizSerie:
 
         st.plotly_chart(fig)
 
-    def plotSalesWeekWeekend(self):
+    def plotSalesWeekEspecialsDays(self):
 
         df = self.df
 
@@ -103,46 +103,23 @@ class VizSerie:
         dfSetWeekend['FimDeSemana'] = dfSetWeekend['DiaDaSemana'].apply(lambda x: x == 5 or x == 6)
 
         trace1 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 1, 'Pedidos'], 
-                    name='Fim de semana',marker = {'color': '#488f31'})
+                    name='Fim de semana',marker = {'color': '#ff2256'})
 
 
         trace2 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 0, 'Pedidos'], 
-                    name='Semana',marker = {'color': '#89b050'})
-
-        data = [trace1, trace2]
-        
-        layout = go.Layout(yaxis={'title':'Pedidos'},
-                    xaxis={'title':'Dia da semana x Fim de semana'})
-
-        fig = go.Figure(data=data, layout=layout)
-
-        st.plotly_chart(fig)
-    
-    def plotSalesHolyDayWeekend(self):
-
-        df = self.df
-
-        dfSetWeekend = df.copy()
-
-        dfSetWeekend['DiaDaSemana'] = df.index.dayofweek
-
-        dfSetWeekend['FimDeSemana'] = dfSetWeekend['DiaDaSemana'].apply(lambda x: x == 5 or x == 6)
+                    name='Semana',marker = {'color': '#2289ff'})
 
         dfSetWeekend['date'] = dfSetWeekend.index
 
         dfSetWeekend['Feriado'] = dfSetWeekend['date'].apply(lambda x: x in br_holidays)
 
-        trace1 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 1, 'Pedidos'], 
-                    name='Fim de semana',marker = {'color': '#488f31'})
+        trace3 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['Feriado'] == 1, 'Pedidos'], 
+                    name='Feriado',marker = {'color': '#ffe522'})
 
-
-        trace2 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['Feriado'] == 1, 'Pedidos'], 
-                    name='Feriado',marker = {'color': '#89b050'})
-
-        data = [trace1, trace2]
+        data = [trace1, trace2, trace3]
         
         layout = go.Layout(yaxis={'title':'Pedidos'},
-                    xaxis={'title':'Feriado x Fim de semana'})
+                    xaxis={'title':'Dia da semana x Fim de semana'})
 
         fig = go.Figure(data=data, layout=layout)
 
@@ -226,6 +203,31 @@ class VizSerie:
 
         st.plotly_chart(fig)
 
+    def plotMonthWeekSales(self):
 
+        dfWeekMonth = self.df.copy()
 
-    
+        dfWeekMonth['year'] = dfWeekMonth.index.year
+        dfWeekMonth['month'] = dfWeekMonth.index.month
+        dfWeekMonth['week'] = dfWeekMonth.index.week
+
+        dfgp = dfWeekMonth.groupby(['year','month','week']).mean().reset_index()
+
+        dfgp['weekMonth'] = dfgp.groupby(['year','month']).cumcount()+1
+
+        dfWeekMonthSelected = dfSemanaMesa = dfgp[['Pedidos','weekMonth']]
+
+        dfWeekMonthgp = dfWeekMonthSelected.groupby('weekMonth')['Pedidos'].mean().reset_index()
+
+        trace1 = go.Bar(x = dfWeekMonthgp['weekMonth'],
+            y = dfWeekMonthgp['Pedidos'],
+            name = 'Média de pedidos / semana do mẽs')
+
+        data = [trace1]
+
+        layout = go.Layout(yaxis={'title':'Quantidade média de pedidos'},
+                    xaxis={'title':'Semana do mês'})
+
+        fig = go.Figure(data=data, layout=layout)
+
+        st.plotly_chart(fig)
