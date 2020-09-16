@@ -4,17 +4,14 @@ import io
 from io import BytesIO, StringIO
 import streamlit as st
 from VizSerie import VizSerie
+from Model import Model
 
 st.beta_set_page_config(
     page_title="Magento 1 - Analise de relatorio de vendas")
 
 def viz(data):
 
-    data['Período'] = pd.to_datetime(data['Período'], format='%Y-%m-%d')
-
-    df = data.set_index('Período')
-
-    data_viz = VizSerie(df)
+    data_viz = VizSerie(data)
 
     """
     ## Como estão minhas vendas ao longo do tempo?
@@ -53,6 +50,7 @@ def viz(data):
     """
     data_viz.plotSeasionality()
 
+
 def main():
 
     st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -77,11 +75,27 @@ def main():
     if isinstance(file, BytesIO):
         show_file.image(file)
     else:
-        data = pd.read_csv(file)
+        data = pd.read_csv(file, usecols=['Pedidos','Período'],  parse_dates=['Período'])
 
     file.close()
+    
+    data = data.iloc[:-1]
+
+    st.write(data)
+
+    data['Período'] = pd.to_datetime(data['Período'], format='%d/%m/%Y')
+
+    data = data.set_index('Período')
+
+    all_days = pd.date_range(data.index.min(), data.index.max(), freq='D')
+
+    data = data.reindex(all_days, fill_value=0)
 
     viz(data)
+    
+    md = Model(data)
+
+    md.predict()
 
 if __name__ == "__main__":
     main()
