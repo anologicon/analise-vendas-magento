@@ -162,7 +162,7 @@ class VizSerie:
 
         df = self.df
 
-        decomposition = seasonal_decompose(df, model="multiplicative")
+        decomposition = seasonal_decompose(df)
 
         trace1 = go.Scatter(x=df.index, 
                 y=decomposition.trend,
