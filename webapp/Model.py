@@ -3,6 +3,7 @@ from fbprophet.plot import plot_plotly, plot_components_plotly
 import pandas as pd
 import streamlit as st
 import holidays
+import plotly.graph_objects as go
 br_holidays = holidays.Brazil()
 
 class Model:
@@ -24,7 +25,7 @@ class Model:
             'upper_window': 1,
         })
         
-        m = Prophet(holidays=holidays, daily_seasonality=True)
+        m = Prophet(holidays=holidays)
 
         m.fit(series)
 
