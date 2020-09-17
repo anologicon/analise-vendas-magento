@@ -28,7 +28,7 @@ class Model:
 
         m.fit(series)
 
-        future = m.make_future_dataframe(periods=15)
+        future = m.make_future_dataframe(periods=30)
 
         forecast = m.predict(future)
 

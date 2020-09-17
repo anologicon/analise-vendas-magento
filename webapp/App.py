@@ -81,8 +81,6 @@ def main():
     
     data = data.iloc[:-1]
 
-    st.write(data)
-
     data['Período'] = pd.to_datetime(data['Período'], format='%d/%m/%Y')
 
     data = data.set_index('Período')
@@ -94,6 +92,10 @@ def main():
     viz(data)
     
     md = Model(data)
+
+    """
+    # Projeção de vendas
+    """
 
     md.predict()
 
