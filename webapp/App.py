@@ -45,11 +45,6 @@ def viz(data):
     """
     data_viz.plotTrand()
 
-    """
-    ## Eu tenho sasionalidade?
-    """
-    data_viz.plotSeasionality()
-
 
 def main():
 
@@ -94,7 +89,7 @@ def main():
     md = Model(data)
 
     """
-    # Projeção de vendas
+    ## Projeção de vendas
     """
 
     md.predict()
