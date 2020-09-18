@@ -63,6 +63,8 @@ class VizSerie:
 
         dfGroupByWeekIndex = dfGroupByWeekIndex.reindex(dias)
 
+        dfGroupByWeekIndex['Pedidos'] = dfGroupByWeekIndex['Pedidos'].apply(lambda x: round(x,0))
+
         trace1 = go.Bar(x = dfGroupByWeekIndex.index,
                 y = dfGroupByWeekIndex['Pedidos'],
                 name = 'Média de pedidos / dia da semana')     
@@ -105,7 +107,6 @@ class VizSerie:
         trace1 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 1, 'Pedidos'], 
                     name='Fim de semana',marker = {'color': '#ff2256'})
 
-
         trace2 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 0, 'Pedidos'], 
                     name='Semana',marker = {'color': '#2289ff'})
 
@@ -141,19 +142,19 @@ class VizSerie:
         fig = make_subplots(rows=4)
 
         fig.add_scatter(x=daily.index, 
-                    y=daily['Pedidos'],
+                    y=daily['Pedidos'].apply(lambda x: round(x,0)),
                     name = 'Vendas Diarias', mode="lines",row=1,col=1)
 
         fig.add_scatter(x=Weekly.index, 
-                    y=Weekly['Pedidos'],
+                    y=Weekly['Pedidos'].apply(lambda x: round(x,0)),
                     name = 'Vendas Semanais', mode="lines",row=2,col=1)
 
         fig.add_scatter(x=month.index, 
-                    y=month['Pedidos'],
+                    y=month['Pedidos'].apply(lambda x: round(x,0)),
                     name = 'Vendas Mensais', mode="lines",row=3,col=1)
         
         fig.add_scatter(x=yearly.index, 
-                    y=yearly['Pedidos'],
+                    y=yearly['Pedidos'].apply(lambda x: round(x,0)),
                     name = 'Vendas Anuais', mode="lines",row=4,col=1)
 
         st.plotly_chart(fig)
@@ -164,8 +165,12 @@ class VizSerie:
 
         decomposition = seasonal_decompose(df)
 
+        dft = pd.DataFrame({'index':df.index, 'trend': decomposition.trend})
+
+        dft['trend'] = dft['trend'].apply(lambda x: round(x, 0))
+
         trace1 = go.Scatter(x=df.index, 
-                y=decomposition.trend,
+                y=dft.trend,
                 name = 'Tendência', mode="lines", marker={'color': '#ff322b'})
 
         trace2 = go.Scatter(x=df.index, 
@@ -179,27 +184,6 @@ class VizSerie:
 
         fig = go.Figure(data=data, layout=layout)
 
-
-        st.plotly_chart(fig)
-
-    def plotSeasionality(self):
-
-        df = self.df
-
-        decomposition = seasonal_decompose(df)
-
-        trace1 = go.Scatter(x=df.index, 
-                y=decomposition.seasonal,
-                name = 'Sasionalidade', mode="lines", marker={'color': '#ff322b'})
-
-        data = [trace1]
-
-        layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
-                    xaxis={'title':'Data'})
-
-        fig = go.Figure(data=data, layout=layout)
-
-        st.write("Variação sasional ou sasionalidade são cíclos que se repetem regularmente sobre o tempo.")
 
         st.plotly_chart(fig)
 
