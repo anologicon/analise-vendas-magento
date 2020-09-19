@@ -104,7 +104,7 @@ def main():
     """
     try:
         with st.spinner('Gerando predição'):
-            periodo = st.slider('Dias de projeção', value=100, max_value=200)
+            periodo = st.slider('Dias de projeção', value=50, max_value=150)
             md = Model(data)
             md.predict(periodo)
             md.viz()
