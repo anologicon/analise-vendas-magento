@@ -82,7 +82,7 @@ class VizSerie:
         data = [trace1, trace2]
 
         layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
-                    xaxis={'title':'Dias da semana'})
+                    xaxis={'title':'Dias da semana'}, width=800)
 
         fig = go.Figure(data=data, layout=layout)
 
@@ -156,6 +156,8 @@ class VizSerie:
         fig.add_scatter(x=yearly.index, 
                     y=yearly['Pedidos'].apply(lambda x: round(x,0)),
                     name = 'Vendas Anuais', mode="lines",row=4,col=1)
+                
+        fig.update_layout(height=800, width=800)
 
         st.plotly_chart(fig)
 
@@ -180,7 +182,7 @@ class VizSerie:
         data = [trace2, trace1]
 
         layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
-                    xaxis={'title':'Data'})
+                    xaxis={'title':'Data'},  width=800)
 
         fig = go.Figure(data=data, layout=layout)
 
