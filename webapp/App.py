@@ -109,7 +109,7 @@ def main():
             md.predict(periodo)
             md.viz()
     except:
-        st.info("Não a dados suficientes para gerar uma projeção, no mínimo 30 dias")
+        st.error("Erro ao gerar projeção")
     
 if __name__ == "__main__":
     main()
