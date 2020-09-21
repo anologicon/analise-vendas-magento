@@ -1,0 +1,3 @@
+# Analise de vendas baseado nos pedidos - Magento 1 (Relatório de vendas)
+
+Um pequeno projeto que ajuda na vizualização e analise dos pedidos com o estatus *fechado*.
