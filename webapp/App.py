@@ -52,7 +52,7 @@ def main():
     """
     # Analise de vendas - Magento 1
 
-    Para começar, na página de relatório de vendas, escolha a opção diária, com o status *Fechado*,
+    Para começar, abra o painel/admin de sua loja magento 1, na página de relatório de vendas, escolha a opção diária, com o status *Fechado*,
     exporte o resultado em formato CSV, e envie aqui.
     """
 
