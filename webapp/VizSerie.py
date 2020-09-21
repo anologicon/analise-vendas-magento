@@ -17,7 +17,7 @@ class VizSerie:
 
         df = self.df
 
-        data = [go.Scatter(x=df.index, y=df['Pedidos'])]
+        data = [go.Scatter(x=df.index, y=df['Pedidos'], mode='markers')]
 
         layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
                     xaxis={'title':'Tempo'})
@@ -177,7 +177,7 @@ class VizSerie:
 
         trace2 = go.Scatter(x=df.index, 
                 y=df['Pedidos'],
-                name = 'Pedidos', mode="lines", marker={'color': '#3d2bff'})
+                name = 'Pedidos', mode="markers", marker={'color': '#3d2bff'})
 
         data = [trace2, trace1]
 
@@ -186,9 +186,26 @@ class VizSerie:
 
         fig = go.Figure(data=data, layout=layout)
 
+        dft['index'] = pd.to_datetime(dft['index'])
+
+        dfw = dft.resample('m').sum()
+
+        dfpct = dfw.pct_change()
+        
+        dfpct['trend_format'] = dfpct['trend'].map(lambda n: '{:,.2%}'.format(n))
+
+        ultimoTrand = dfpct[-1:]['trend'][0]
+        ultimoTrandFormat = dfpct[-1:]['trend_format'][0]
+
+        message = "um aumento"
+
+        if ultimoTrand < 0:
+            message = "uma queda"
+
+        st.write("Parece que  a tendência teve **"+message+"** de **"+str(ultimoTrandFormat)+"** comparado com o último mês.")
 
         st.plotly_chart(fig)
-
+    
     def plotMonthWeekSales(self):
 
         dfWeekMonth = self.df.copy()

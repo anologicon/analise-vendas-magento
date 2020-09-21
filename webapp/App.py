@@ -43,10 +43,7 @@ def viz(data):
     """
     ## Como esta minha têndencia?
     """
-    try:
-        data_viz.plotTrand()
-    except:
-        st.info("Não a dados suficientes para gerar uma tendência, 20 dias")
+    data_viz.plotTrand()
 
 def main():
 

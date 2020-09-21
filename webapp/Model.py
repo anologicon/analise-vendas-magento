@@ -24,7 +24,7 @@ class Model:
 
         trace2 = go.Scatter(x=df.index, 
                 y=df['Pedidos'],
-                name = 'Atual', mode="lines", marker={'color': '#3d2bff'})
+                name = 'Atual', mode="markers", marker={'color': '#3d2bff'})
 
         yhat_lower = go.Scatter(
             x = dfs.index,
