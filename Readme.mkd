@@ -7,7 +7,7 @@
 Para utilizar basta acessar o relatório de vendas na plataforma magento e:
 
 - 1 Escolha as datas inicio e fim de formas **diárias**;
-- 2 Escolha o status **fechado**
+- 2 Escolha o status **finalizado ou complete se estiver em inglês**
 - 3 Execute o relatório
 - 4 Clique em exportar como **CSV**
 - 5 Selecione o arquivo .csv para a análise 
