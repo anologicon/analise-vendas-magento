@@ -17,7 +17,7 @@ OU
 Utilize o arquivo .csv do projeto na pasta **demonstracao**, são dados gerados aleatóriamente para fins de pura demonstração.
 
 
-## Idéia
+## Ideia
 Um pequeno projeto que analisa as vendas beaseado nos pedidos vindo da exportação do relatório de vendas da plataforma magento 1. A idéia é dar um pequeno *insgiht* sobre as vendas do e-commerce e entender como esta sua têndencia e o seu comportamento ao longo do tempo. Á também uma pequena projeção que pode ser ajustada para até 150 dias no futuro.
 
 ## Sobre o projeto
@@ -25,7 +25,7 @@ Neste projeto utiliza o streamlit que serve para criar aplicações simples para
 
 O projeto se encontra hospedado no Heroku, e denvolvimento utiliza docker para a facilidade entre ambientes de desenvolvimento.
 
-## Links técnologias:
+## Links tecnologias:
 
 - [streamlit.io](https://www.streamlit.io/)
 - [prophet](https://facebook.github.io/prophet/)
