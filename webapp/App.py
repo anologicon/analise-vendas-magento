@@ -81,9 +81,11 @@ def main():
     
     data = data.iloc[:-1]
 
-    data['Período'] = pd.to_datetime(data['Período'], format='%d/%m/%Y')
+    data = pd.DataFrame({'y': data['Pedidos'], 'date':data['Período']})
 
-    data = data.set_index('Período')
+    data['date'] = pd.to_datetime(data['date'], format='%d/%m/%Y')
+
+    data = data.set_index('date')
     
     try:
         all_days = pd.date_range(data.index.min(), data.index.max(), freq='D')

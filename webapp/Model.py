@@ -23,7 +23,7 @@ class Model:
                 name = 'Predição', mode="lines", marker={'color': '#ff322b'})
 
         trace2 = go.Scatter(x=df.index, 
-                y=df['Pedidos'],
+                y=df['y'],
                 name = 'Atual', mode="markers", marker={'color': '#3d2bff'})
 
         yhat_lower = go.Scatter(
@@ -58,7 +58,7 @@ class Model:
     def predict(self, periods):
         df = self.df
 
-        series = pd.DataFrame({'ds': df.index,'y':df['Pedidos']})
+        series = pd.DataFrame({'ds': df.index,'y':df['y']})
 
         series['y'] = series['y'].fillna(0)
 
