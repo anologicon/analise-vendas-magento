@@ -1,3 +1,33 @@
-# Analise de vendas baseado nos pedidos - Magento 1 (Relatório de vendas)
+# Analise de vendas - Magento 1
 
-Um pequeno projeto que ajuda na vizualização e analise dos pedidos com o estatus *fechado*.
+
+![Preview](images/preview.gif)
+
+## Como utilizar
+Para utilizar basta acessar o [relatório de vendas baseado nos pedidos](http://wiki.querycommerce.com/base-conhecimento:magento:relatorios:vendas) na plataforma magento e:
+
+- 1 Escolha as datas inicio e fim de formas **diárias**;
+- 2 Escolha o status **finalizado ou complete se estiver em inglês**
+- 3 Execute o relatório
+- 4 Clique em exportar como **CSV**
+- 5 Selecione o arquivo .csv para a análise 
+
+OU
+
+Utilize o arquivo .csv do projeto na pasta **demonstracao**, são dados gerados aleatóriamente para fins de pura demonstração.
+
+
+## Ideia
+Um pequeno projeto que analisa as vendas beaseado nos pedidos vindo da exportação do relatório de vendas da plataforma magento 1. A idéia é dar um pequeno *insgiht* sobre as vendas do e-commerce e entender como esta sua têndencia e o seu comportamento ao longo do tempo. Á também uma pequena projeção que pode ser ajustada para até 150 dias no futuro.
+
+## Sobre o projeto
+Neste projeto utiliza o streamlit que serve para criar aplicações simples para demostrações, plotly para a uma vizualização interativa dos dados, e facebook prophet, uma biblioteca do facebook para de analise de séries temporais de forma 'automatizada', claro que a projeção não será tão acertiva pois desta forma o modelo é 'genérico' sem features engineering, recomendo que faça uma analise mais afundo para uma projeção mais acertiva.
+
+O projeto se encontra hospedado no Heroku, e denvolvimento utiliza docker para a facilidade entre ambientes de desenvolvimento.
+
+## Links tecnologias:
+
+- [streamlit.io](https://www.streamlit.io/)
+- [prophet](https://facebook.github.io/prophet/)
+- [heroku](https://www.heroku.com/)
+
