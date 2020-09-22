@@ -4,7 +4,7 @@
 ![Preview](images/preview.gif)
 
 ## Como utilizar
-Para utilizar basta acessar o relatório de vendas na plataforma magento e:
+Para utilizar basta acessar o relatório de vendas baseado nos pedidos na plataforma magento e:
 
 - 1 Escolha as datas inicio e fim de formas **diárias**;
 - 2 Escolha o status **finalizado ou complete se estiver em inglês**
