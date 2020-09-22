@@ -83,6 +83,9 @@ class Model:
 
         decomposition = seasonal_decompose(df)
 
+        # Se o valor for negativo para a vizualização substituir por zero
+        forecast['yhat'] = forecast['yhat'].apply(lambda x: 0 if (x < 0) else x)
+
         dfs = pd.DataFrame({'index': forecast['ds'], 'pedidos': forecast['yhat'],
             'pedidos_max': forecast['yhat_upper'], 'pedidos_lower':forecast['yhat_lower']})
 
