@@ -20,7 +20,6 @@ class VizSerie:
         df['date'] = df.index.date
 
         df['feriado'] = df['date'].apply(lambda x: x in br_holidays)
-
         
         df['DiaDaSemana'] = df.index.dayofweek
 
