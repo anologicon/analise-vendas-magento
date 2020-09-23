@@ -15,7 +15,7 @@ class VizSerie:
 
     def simplePlotSeries(self):
 
-        df = self.df
+        df = self.df.copy()
 
         df['date'] = df.index.date
 
@@ -59,7 +59,7 @@ class VizSerie:
 
     def plotSalesByWeekDays(self):
         
-        df = self.df
+        df = self.df.copy()
 
         dias = [
             'Segunda-feira',
@@ -116,7 +116,7 @@ class VizSerie:
 
     def plotSalesWeekEspecialsDays(self):
 
-        df = self.df
+        df = self.df.copy()
 
         dfSetWeekend = df.copy()
 
@@ -148,7 +148,7 @@ class VizSerie:
 
     def plotSubSales(self):
 
-        df = self.df
+        df = self.df.copy()
 
         # Daily Mean
         daily = df.resample('D').mean()
@@ -183,7 +183,7 @@ class VizSerie:
 
     def plotTrand(self):
 
-        df = self.df
+        df = self.df.copy()
 
         decomposition = seasonal_decompose(df)
 
