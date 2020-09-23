@@ -17,7 +17,7 @@ class VizSerie:
 
         df = self.df
 
-        data = [go.Scatter(x=df.index, y=df['Pedidos'], mode='markers')]
+        data = [go.Scatter(x=df.index, y=df['y'], mode='markers')]
 
         layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
                     xaxis={'title':'Tempo'})
@@ -57,26 +57,26 @@ class VizSerie:
 
         dfByWeek['DiaDaSemana'] = dfByWeek['DiaDaSemana'].apply(lambda x: dias[x])
 
-        dfGroupByWeek = dfByWeek.groupby(['DiaDaSemana'])['Pedidos'].mean().reset_index()
+        dfGroupByWeek = dfByWeek.groupby(['DiaDaSemana'])['y'].mean().reset_index()
 
         dfGroupByWeekIndex = dfGroupByWeek.set_index('DiaDaSemana')
 
         dfGroupByWeekIndex = dfGroupByWeekIndex.reindex(dias)
 
-        dfGroupByWeekIndex['Pedidos'] = dfGroupByWeekIndex['Pedidos'].apply(lambda x: round(x,0))
+        dfGroupByWeekIndex['y'] = dfGroupByWeekIndex['y'].apply(lambda x: round(x,0))
 
         trace1 = go.Bar(x = dfGroupByWeekIndex.index,
-                y = dfGroupByWeekIndex['Pedidos'],
+                y = dfGroupByWeekIndex['y'],
                 name = 'Média de pedidos / dia da semana')     
 
-        dfMaxGroupByWeek = dfGroupByWeekIndex.groupby(['DiaDaSemana'])['Pedidos'].max().reset_index()
+        dfMaxGroupByWeek = dfGroupByWeekIndex.groupby(['DiaDaSemana'])['y'].max().reset_index()
 
         dfMaxGroupByWeek = dfMaxGroupByWeek.set_index('DiaDaSemana')
 
         dfMaxGroupByWeek = dfMaxGroupByWeek.reindex(dias)
 
         trace2 = go.Scatter(x=dfMaxGroupByWeek.index, 
-                    y=dfMaxGroupByWeek['Pedidos'],
+                    y=dfMaxGroupByWeek['y'],
                     name = 'Médias de vendas em linha', line = {'color': '#341f97','dash': 'dot'})
 
         data = [trace1, trace2]
@@ -88,7 +88,7 @@ class VizSerie:
 
         maxDiaSemana = dfGroupByWeekIndex.idxmax(axis = 0)[0]
 
-        maxPedidos = round(dfGroupByWeekIndex['Pedidos'].max(), 3)
+        maxPedidos = round(dfGroupByWeekIndex['y'].max(), 3)
 
         st.write("Parece que **"+maxDiaSemana+"** tem a melhor média de vendas, com **"+str(maxPedidos)+"** pedidos.")
 
@@ -104,17 +104,17 @@ class VizSerie:
 
         dfSetWeekend['FimDeSemana'] = dfSetWeekend['DiaDaSemana'].apply(lambda x: x == 5 or x == 6)
 
-        trace1 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 1, 'Pedidos'], 
+        trace1 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 1, 'y'], 
                     name='Fim de semana',marker = {'color': '#ff2256'})
 
-        trace2 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 0, 'Pedidos'], 
+        trace2 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['FimDeSemana'] == 0, 'y'], 
                     name='Semana',marker = {'color': '#2289ff'})
 
         dfSetWeekend['date'] = dfSetWeekend.index
 
         dfSetWeekend['Feriado'] = dfSetWeekend['date'].apply(lambda x: x in br_holidays)
 
-        trace3 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['Feriado'] == 1, 'Pedidos'], 
+        trace3 = go.Box(y = dfSetWeekend.loc[dfSetWeekend['Feriado'] == 1, 'y'], 
                     name='Feriado',marker = {'color': '#ffe522'})
 
         data = [trace1, trace2, trace3]
@@ -142,19 +142,19 @@ class VizSerie:
         fig = make_subplots(rows=4)
 
         fig.add_scatter(x=daily.index, 
-                    y=daily['Pedidos'].apply(lambda x: round(x,0)),
+                    y=daily['y'].apply(lambda x: round(x,0)),
                     name = 'Vendas Diarias', mode="lines",row=1,col=1)
 
         fig.add_scatter(x=Weekly.index, 
-                    y=Weekly['Pedidos'].apply(lambda x: round(x,0)),
+                    y=Weekly['y'].apply(lambda x: round(x,0)),
                     name = 'Vendas Semanais', mode="lines",row=2,col=1)
 
         fig.add_scatter(x=month.index, 
-                    y=month['Pedidos'].apply(lambda x: round(x,0)),
+                    y=month['y'].apply(lambda x: round(x,0)),
                     name = 'Vendas Mensais', mode="lines",row=3,col=1)
         
         fig.add_scatter(x=yearly.index, 
-                    y=yearly['Pedidos'].apply(lambda x: round(x,0)),
+                    y=yearly['y'].apply(lambda x: round(x,0)),
                     name = 'Vendas Anuais', mode="lines",row=4,col=1)
                 
         fig.update_layout(height=800, width=800)
@@ -176,7 +176,7 @@ class VizSerie:
                 name = 'Tendência', mode="lines", marker={'color': '#ff322b'})
 
         trace2 = go.Scatter(x=df.index, 
-                y=df['Pedidos'],
+                y=df['y'],
                 name = 'Pedidos', mode="markers", marker={'color': '#3d2bff'})
 
         data = [trace2, trace1]
@@ -218,12 +218,12 @@ class VizSerie:
 
         dfgp['weekMonth'] = dfgp.groupby(['year','month']).cumcount()+1
 
-        dfWeekMonthSelected = dfSemanaMesa = dfgp[['Pedidos','weekMonth']]
+        dfWeekMonthSelected = dfSemanaMesa = dfgp[['y','weekMonth']]
 
-        dfWeekMonthgp = dfWeekMonthSelected.groupby('weekMonth')['Pedidos'].mean().reset_index()
+        dfWeekMonthgp = dfWeekMonthSelected.groupby('weekMonth')['y'].mean().reset_index()
 
         trace1 = go.Bar(x = dfWeekMonthgp['weekMonth'],
-            y = dfWeekMonthgp['Pedidos'],
+            y = dfWeekMonthgp['y'],
             name = 'Média de pedidos / semana do mẽs')
 
         data = [trace1]

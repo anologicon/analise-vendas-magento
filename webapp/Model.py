@@ -23,7 +23,7 @@ class Model:
                 name = 'Predição', mode="lines", marker={'color': '#ff322b'})
 
         trace2 = go.Scatter(x=df.index, 
-                y=df['Pedidos'],
+                y=df['y'],
                 name = 'Atual', mode="markers", marker={'color': '#3d2bff'})
 
         yhat_lower = go.Scatter(
@@ -58,7 +58,7 @@ class Model:
     def predict(self, periods):
         df = self.df
 
-        series = pd.DataFrame({'ds': df.index,'y':df['Pedidos']})
+        series = pd.DataFrame({'ds': df.index,'y':df['y']})
 
         series['y'] = series['y'].fillna(0)
 
@@ -82,6 +82,9 @@ class Model:
         forecast['yhat_lower'] = forecast['yhat_lower'].apply(lambda x: round(x, 0))
 
         decomposition = seasonal_decompose(df)
+
+        # Se o valor for negativo para a vizualização substituir por zero
+        forecast['yhat'] = forecast['yhat'].apply(lambda x: 0 if (x < 0) else x)
 
         dfs = pd.DataFrame({'index': forecast['ds'], 'pedidos': forecast['yhat'],
             'pedidos_max': forecast['yhat_upper'], 'pedidos_lower':forecast['yhat_lower']})

@@ -52,8 +52,8 @@ def main():
     """
     # Analise de vendas - Magento 1
 
-    Para começar, abra o painel/admin de sua loja magento 1, na página de relatório de vendas, escolha a opção diária, com o status *Finalizado* ou *Complete* se você estiver utilizando magento em inglês,
-    exporte o resultado em formato CSV, e envie aqui.
+    Para começar, abra o painel/admin de sua loja magento 1, na página de relatório de vendas com a opção **Pedidos**, escolha a opção diária, com o 
+    status *Finalizado* ou *Complete* se você estiver utilizando magento em inglês, exporte o resultado em formato CSV, e envie aqui.
     """
 
     file = st.file_uploader("Enviar relatório", type=["csv"])
@@ -81,9 +81,11 @@ def main():
     
     data = data.iloc[:-1]
 
-    data['Período'] = pd.to_datetime(data['Período'], format='%d/%m/%Y')
+    data = pd.DataFrame({'y': data['Pedidos'], 'date':data['Período']})
 
-    data = data.set_index('Período')
+    data['date'] = pd.to_datetime(data['date'], format='%d/%m/%Y')
+
+    data = data.set_index('date')
     
     try:
         all_days = pd.date_range(data.index.min(), data.index.max(), freq='D')
@@ -99,14 +101,14 @@ def main():
     """
     ## Projeção de vendas
     """
-    try:
-        with st.spinner('Gerando predição'):
-            periodo = st.slider('Dias de projeção', value=50, max_value=150)
-            md = Model(data)
-            md.predict(periodo)
-            md.viz()
-    except:
-        st.error("Erro ao gerar projeção")
+    # try:
+    with st.spinner('Gerando predição'):
+        periodo = st.slider('Dias de projeção', value=50, max_value=150)
+        md = Model(data)
+        md.predict(periodo)
+        md.viz()
+    # except:
+    #     st.error("Erro ao gerar projeção")
     
 if __name__ == "__main__":
     main()
