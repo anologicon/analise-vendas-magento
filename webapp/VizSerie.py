@@ -12,12 +12,33 @@ class VizSerie:
 
     def __init__(self, df):
         self.df = df
-        
+
     def simplePlotSeries(self):
 
         df = self.df
 
-        data = [go.Scatter(x=df.index, y=df['y'], mode='markers')]
+        df['date'] = df.index.date
+
+        df['feriado'] = df['date'].apply(lambda x: x in br_holidays)
+
+        
+        df['DiaDaSemana'] = df.index.dayofweek
+
+        df['fimDeSemana'] = df['DiaDaSemana'].apply(lambda x: x == 5 or x == 6)
+
+        dfDiaSemana = df[(df['fimDeSemana'] == 0) & (df['feriado'] == 0)]
+
+        trace1 = go.Scatter(x=dfDiaSemana.index, y=dfDiaSemana['y'], mode='markers', name="Dia da semana")
+
+        dfFeriados = df[(df['fimDeSemana'] == 0) & (df['feriado'] == 1)]
+
+        trace2 = go.Scatter(x=dfFeriados.index, y=dfFeriados['y'], mode='markers', name="Feriado")
+
+        dfFimDeSemana = df[(df['fimDeSemana'] == 1) & (df['feriado'] == 0)]
+
+        trace3 = go.Scatter(x=dfFimDeSemana.index, y=dfFimDeSemana['y'], mode='markers', name="Fim de semana")
+
+        data = [trace1, trace2, trace3]
 
         layout = go.Layout(yaxis={'title':'Quantidade de pedidos'},
                     xaxis={'title':'Tempo'})
