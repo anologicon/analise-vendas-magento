@@ -50,7 +50,7 @@ def main():
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
     """
-    # Analise de vendas - Magento 1
+    # Analise de vendas - Magento 18
 
     Para começar, abra o painel/admin de sua loja magento 1, na página de relatório de vendas com a opção **Pedidos**, escolha a opção diária, com o 
     status *Finalizado* ou *Complete* se você estiver utilizando magento em inglês, exporte o resultado em formato CSV, e envie aqui.
